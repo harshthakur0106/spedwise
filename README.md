@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SpendWise
 
-## Getting Started
+SpendWise is a personal finance and monthly budget planner built with Next.js, Tailwind CSS, Drizzle ORM, and Neon PostgreSQL. It is designed to run as a single Next.js app on Vercel without a separate backend service.
 
-First, run the development server:
+## Features
+
+- Dashboard with monthly salary, income, expenses, monthly balance, and budget progress
+- Budget planner with category allocation tracking
+- Transactions page with add and list workflows
+- Analytics page with spending breakdown and estimates
+- Server-side database access only through the `DATABASE_URL` environment variable
+- Vercel-ready structure for deployment
+
+## Installation
+
+1. Clone the repository.
+2. Change into the project folder.
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+## Neon PostgreSQL Setup
+
+1. Create a Neon project in the Neon console.
+2. Copy the connection string for your database.
+3. Create a local `.env.local` file from `.env.example`.
+
+```bash
+cp .env.example .env.local
+```
+
+4. Replace the placeholder values with your actual Neon database URL.
+
+Example:
+
+```env
+DATABASE_URL=postgres://user:password@host:5432/database?sslmode=require
+NEXT_PUBLIC_APP_NAME=SpendWise
+```
+
+> Never commit `.env.local` or expose the database URL in client-side code. The app reads it only on the server using `process.env.DATABASE_URL`.
+
+## Database Migrations
+
+Generate and run the Drizzle schema:
+
+```bash
+npm run db:generate
+npm run db:migrate
+```
+
+If you are using Vercel, set the `DATABASE_URL` variable in the project environment in the Vercel dashboard before deploying.
+
+## Local Development
+
+Start the app:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the app in your browser:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Vercel Deployment
 
-## Learn More
+1. Push the repository to GitHub.
+2. Create a new Vercel project and import the repository.
+3. In the Vercel project settings, add the environment variable:
+   - `DATABASE_URL`
+4. Make sure the project root is the repository root.
+5. Deploy the project.
 
-To learn more about Next.js, take a look at the following resources:
+The app is configured to use server-side access to PostgreSQL and is compatible with Vercel serverless deployment.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## GitHub Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Create a new GitHub repository.
+2. Commit the project files.
+3. Push the repository to your GitHub account.
+4. Connect the repository to Vercel.
 
-## Deploy on Vercel
+## Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The app intentionally shows a clear configuration error when `DATABASE_URL` is missing instead of silently falling back to mock data.
+- Optional seed data can be added only in development, and no fake financial records are inserted automatically in production.
