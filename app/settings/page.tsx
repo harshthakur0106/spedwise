@@ -1,6 +1,7 @@
 import { AppShell } from "@/components/app-shell";
 import { MonthPicker } from "@/components/month-picker";
 import { PlanForm } from "@/components/plan-form";
+import { SalaryEditor } from "@/components/salary-editor";
 import { getMonthlyPlanByKey, getMonthlyPlanWithAllocations } from "@/lib/db/queries";
 import { formatCurrency } from "@/lib/utils";
 
@@ -38,12 +39,18 @@ export default async function SettingsPage({
         ) : null}
 
         <div className="grid gap-6 xl:grid-cols-2">
-          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-5 text-xl font-semibold text-slate-900">Salary management</h3>
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Selected monthly salary</p>
-              <p className="mt-2 text-3xl font-semibold text-slate-900">{formatCurrency(Number(plan?.salary ?? 0))}</p>
-            </div>
+          <div>
+            {plan ? (
+              <SalaryEditor planId={plan.id} currentSalary={Number(plan.salary ?? 0)} />
+            ) : (
+              <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <h3 className="mb-5 text-xl font-semibold text-slate-900">Salary management</h3>
+                <div className="rounded-2xl bg-slate-50 p-4">
+                  <p className="text-sm text-slate-500">Selected monthly salary</p>
+                  <p className="mt-2 text-3xl font-semibold text-slate-900">{formatCurrency(0)}</p>
+                </div>
+              </div>
+            )}
           </div>
 
           <div>
